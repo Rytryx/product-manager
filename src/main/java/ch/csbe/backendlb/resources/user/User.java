@@ -1,10 +1,14 @@
 package ch.csbe.backendlb.resources.user;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Date;
 
 @Entity
+@Getter
+@Setter
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -14,13 +18,13 @@ public class User {
     @Column(columnDefinition="varchar(255)")
     private String password;
     @Column(columnDefinition="varchar(255)")
-    private String surName;
+    private String surname;
     @Column(columnDefinition="varchar(255)")
-    private String lastName;
+    private String lastname;
     @Column(columnDefinition="varchar(255)")
     private String email;
     @Column(columnDefinition="DATE")
-    private Date Birthday;
+    private Date birthday;
     @Column(columnDefinition="varchar(255)")
     private String streetName;
     @Column(columnDefinition="varchar(255)")

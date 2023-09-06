@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface CategoryRepository extends JpaRepository<Product, Long> {
-    List<Product> findProductsByName(String name);
+public interface CategoryRepository extends JpaRepository<Category, Long> {
+    List<Category> findProductsByName(String name);
     @Query("SELECT c FROM Category  c WHERE c.name= ?1")
     Category findCategoryByTitle(String name);
 

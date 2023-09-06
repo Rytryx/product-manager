@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface UserRepository extends JpaRepository<Product, Long> {
-    List<Product> findProductsById(Long id);
+public interface UserRepository extends JpaRepository<User, Long> {
+    List<User> findProductsById(Long id);
     @Query("SELECT u FROM User  u WHERE u.id= ?1")
     Product findToDoByLastName(Long id);
 }

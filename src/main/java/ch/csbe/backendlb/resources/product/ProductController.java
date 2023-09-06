@@ -3,36 +3,37 @@ package ch.csbe.backendlb.resources.product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequestMapping("/products")
-@RestController()
-public  class ProductController {
+@RestController
+public class ProductController {
 
     @Autowired
-    ProductService productService;
+    private ProductService productService;
 
-    @GetMapping("/")
-    public String getProducts(){
-        return "Hier wären meine Produkte";
+    @GetMapping()
+    public List<Product> getProducts() {
+        return productService.getAll();
     }
-    @PostMapping("/")
-    public Product create(@RequestBody Product product) {
+
+    @PostMapping()
+    public Product createProduct(@RequestBody Product product) {
         return productService.create(product);
     }
 
     @GetMapping("/{id}")
-    public Product getById(@PathVariable("id") Long id) {
+    public Product getProductById(@PathVariable("id") Long id) {
         return productService.getById(id);
     }
 
     @PutMapping("/{id}")
-    public Product update(@PathVariable("id") Long id, @RequestBody Product product) {
+    public Product updateProductById(@PathVariable("id") Long id, @RequestBody Product product) {
         return productService.update(id, product);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable("id") Long id) {
+    public void deleteProductById(@PathVariable("id") Long id) {
         productService.deleteById(id);
     }
-
 }
-
