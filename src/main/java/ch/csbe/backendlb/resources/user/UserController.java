@@ -64,18 +64,14 @@ public class UserController {
 
     private boolean isValidUser(User user) {
         if (user == null) {
-            return false; // Benutzer ist null, daher ungültig
+            return false;
         }
 
-        // Überprüfen Sie, ob erforderliche Felder nicht leer oder null sind
         if (user.getUsername() == null || user.getUsername().isEmpty()) {
-            return false; // Benutzername ist erforderlich und darf nicht leer sein
+            return false;
         }
 
-        if (user.getPassword() == null || user.getPassword().isEmpty()) {
-            return false; // Passwort ist erforderlich und darf nicht leer sein
-        }
-        return true;
+        return user.getPassword() != null && !user.getPassword().isEmpty();
     }
 
 
@@ -144,14 +140,13 @@ public class UserController {
             responseCode = "404",
             description = "Benutzer nicht gefunden"
     )
-    public ResponseEntity<Void> deleteUserById(
-            @Parameter(description = "ID des zu löschenden Benutzers") @PathVariable("id") Long id) {
-        boolean deleted = userService.delete(id);
-        if (deleted) {
-            return ResponseEntity.noContent().build();
-        } else {
+    public ResponseEntity<Void> userById(
+            @Parameter(description = "ID des zu löschenden User") @PathVariable Long id) {
+        userService.delete(id);
+        if (!userService.existsById(id)) {
             return ResponseEntity.notFound().build();
         }
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/user/register")

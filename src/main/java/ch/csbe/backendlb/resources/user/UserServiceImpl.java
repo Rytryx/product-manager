@@ -3,7 +3,6 @@ package ch.csbe.backendlb.resources.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -40,19 +39,20 @@ public class UserServiceImpl implements UserService {
             User existingUser = userOptional.get();
             existingUser.setUsername(user.getUsername());
             existingUser.setEmail(user.getEmail());
-            // Weitere Felder aktualisieren, falls vorhanden
             return userRepository.save(existingUser);
         }
-        return null; // Sie können in Erwägung ziehen, hier eine Ausnahme auszulösen, um anzuzeigen, dass der Benutzer nicht gefunden wurde.
+        return null;
     }
 
     @Override
-    public boolean delete(Long id) {
+    public void delete(Long id) {
         if (userRepository.existsById(id)) {
             userRepository.deleteById(id);
         } else {
-            throw new ResourceNotFoundException("User with the id " + id + " could not be found!");
+            throw new ResourceNotFoundException("Category with the id " + id + " could not be found!");
         }
-        return false;
+    }
+    public boolean existsById(Long id) {
+        return userRepository.existsById(id);
     }
 }

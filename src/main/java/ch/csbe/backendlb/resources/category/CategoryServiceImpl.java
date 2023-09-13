@@ -55,4 +55,8 @@ public class CategoryServiceImpl implements CategoryService {
             throw new ResourceNotFoundException("Category with the id " + id + " could not be found!");
         }
     }
+
+    public boolean existsById(Long id) {
+        return categoryRepository.existsById(id);
+    }
 }
