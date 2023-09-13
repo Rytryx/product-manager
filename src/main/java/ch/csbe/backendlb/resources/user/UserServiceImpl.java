@@ -47,11 +47,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete(Long id) {
+    public boolean delete(Long id) {
         if (userRepository.existsById(id)) {
             userRepository.deleteById(id);
         } else {
             throw new ResourceNotFoundException("User with the id " + id + " could not be found!");
         }
+        return false;
     }
 }

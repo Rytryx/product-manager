@@ -1,6 +1,8 @@
 package ch.csbe.backendlb.resources.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,8 +24,18 @@ public class UserController {
             operationId = "getUsers",
             description = "Holen Sie eine Liste aller Benutzer."
     )
-    public List<User> getUsers() {
-        return userService.getAll();
+    @ApiResponse(
+            responseCode = "200",
+            description = "Benutzer gefunden",
+            content = @Content(schema = @Schema(implementation = User.class))
+    )
+    public ResponseEntity<List<User>> getUsers() {
+        List<User> users = userService.getAll();
+        if (!users.isEmpty()) {
+            return ResponseEntity.ok(users);
+        } else {
+            return ResponseEntity.noContent().build();
+        }
     }
 
     @PostMapping()
@@ -37,9 +49,38 @@ public class UserController {
             description = "Benutzer erstellt",
             content = @Content(schema = @Schema(implementation = User.class))
     )
-    public User createUser(@RequestBody User user) {
-        return userService.create(user);
+    @ApiResponse(
+            responseCode = "400",
+            description = "Ungültige Anforderung"
+    )
+    public ResponseEntity<User> createUser(@RequestBody User user) {
+        if (isValidUser(user)) {
+            User createdUser = userService.create(user);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
     }
+
+    private boolean isValidUser(User user) {
+        if (user == null) {
+            return false; // Benutzer ist null, daher ungültig
+        }
+
+        // Überprüfen Sie, ob erforderliche Felder nicht leer oder null sind
+        if (user.getUsername() == null || user.getUsername().isEmpty()) {
+            return false; // Benutzername ist erforderlich und darf nicht leer sein
+        }
+
+        if (user.getPassword() == null || user.getPassword().isEmpty()) {
+            return false; // Passwort ist erforderlich und darf nicht leer sein
+        }
+
+        // Fügen Sie weitere Validierungen für andere erforderliche Felder hinzu, wenn nötig.
+
+        return true; // Wenn alle Validierungen erfolgreich sind, gilt der Benutzer als gültig.
+    }
+
 
     @GetMapping("/{id}")
     @Operation(
@@ -47,9 +88,23 @@ public class UserController {
             operationId = "getUserById",
             description = "Holen Sie einen Benutzer anhand seiner ID."
     )
-    public User getUserById(
+    @ApiResponse(
+            responseCode = "200",
+            description = "Benutzer gefunden",
+            content = @Content(schema = @Schema(implementation = User.class))
+    )
+    @ApiResponse(
+            responseCode = "404",
+            description = "Benutzer nicht gefunden"
+    )
+    public ResponseEntity<User> getUserById(
             @Parameter(description = "ID des Benutzers") @PathVariable("id") Long id) {
-        return userService.getById(id);
+        User user = userService.getById(id);
+        if (user != null) {
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PutMapping("/{id}")
@@ -58,10 +113,24 @@ public class UserController {
             operationId = "updateUserById",
             description = "Aktualisieren Sie einen Benutzer anhand seiner ID."
     )
-    public User updateUserById(
+    @ApiResponse(
+            responseCode = "200",
+            description = "Benutzer aktualisiert",
+            content = @Content(schema = @Schema(implementation = User.class))
+    )
+    @ApiResponse(
+            responseCode = "404",
+            description = "Benutzer nicht gefunden"
+    )
+    public ResponseEntity<User> updateUserById(
             @Parameter(description = "ID des Benutzers") @PathVariable("id") Long id,
             @RequestBody User user) {
-        return userService.update(id, user);
+        User updatedUser = userService.update(id, user);
+        if (updatedUser != null) {
+            return ResponseEntity.ok(updatedUser);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @DeleteMapping("/{id}")
@@ -74,9 +143,18 @@ public class UserController {
             responseCode = "204",
             description = "Benutzer gelöscht"
     )
-    public void deleteUserById(
+    @ApiResponse(
+            responseCode = "404",
+            description = "Benutzer nicht gefunden"
+    )
+    public ResponseEntity<Void> deleteUserById(
             @Parameter(description = "ID des zu löschenden Benutzers") @PathVariable("id") Long id) {
-        userService.delete(id);
+        boolean deleted = userService.delete(id);
+        if (deleted) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping("/user/register")
@@ -85,8 +163,8 @@ public class UserController {
             operationId = "registerNewUser",
             description = "Hier kann sich ein Benutzer registrieren."
     )
-    public String registerNewUser() {
-        return "Hier kann sich ein Benutzer registrieren";
+    public ResponseEntity<String> registerNewUser() {
+        return ResponseEntity.ok("Hier kann sich ein Benutzer registrieren");
     }
 
     @PutMapping("/users/assign-admin/{userId}")
@@ -95,8 +173,8 @@ public class UserController {
             operationId = "assignAdmin",
             description = "Hier kann ein Administrator Administratorrechte einem Benutzer zuweisen."
     )
-    public String assignAdmin(
+    public ResponseEntity<String> assignAdmin(
             @Parameter(description = "ID des Benutzers") @PathVariable String userId) {
-        return "Hier kann ein Administrator Administratorrechte einem Benutzer zuweisen: " + userId;
+        return ResponseEntity.ok("Hier kann ein Administrator Administratorrechte einem Benutzer zuweisen: " + userId);
     }
 }
