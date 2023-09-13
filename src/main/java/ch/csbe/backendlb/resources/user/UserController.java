@@ -75,10 +75,7 @@ public class UserController {
         if (user.getPassword() == null || user.getPassword().isEmpty()) {
             return false; // Passwort ist erforderlich und darf nicht leer sein
         }
-
-        // Fügen Sie weitere Validierungen für andere erforderliche Felder hinzu, wenn nötig.
-
-        return true; // Wenn alle Validierungen erfolgreich sind, gilt der Benutzer als gültig.
+        return true;
     }
 
 
