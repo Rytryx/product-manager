@@ -1,4 +1,8 @@
 package ch.csbe.backendlb.resources.category;
+import ch.csbe.backendlb.resources.category.Dto.CategoryCreateDto;
+import ch.csbe.backendlb.resources.category.Dto.CategoryDetailDto;
+import ch.csbe.backendlb.resources.category.Dto.CategoryShowDto;
+import ch.csbe.backendlb.resources.category.Dto.CategoryUpdateDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,23 +16,23 @@ public class CategoryController {
     private CategoryServiceImpl categoryService;
 
     @GetMapping()
-    public List<Category> getCategories() {
+    public List<CategoryShowDto> getCategories() {
         return categoryService.getAll();
     }
 
     @PostMapping()
-    public Category createCategory(@RequestBody Category category) {
-        return categoryService.create(category);
+    public CategoryShowDto createCategory(@RequestBody CategoryCreateDto categoryCreateDto) {
+        return categoryService.create(categoryCreateDto);
     }
 
     @GetMapping("/{id}")
-    public Category getCategoryById(@PathVariable Long id) {
+    public CategoryDetailDto getCategoryById(@PathVariable Long id) {
         return categoryService.getById(id);
     }
 
     @PutMapping("/{id}")
-    public Category updateCategoryById(@PathVariable Long id, @RequestBody Category category) {
-        return categoryService.update(id, category);
+    public CategoryDetailDto updateCategoryById(@PathVariable Long id, @RequestBody CategoryUpdateDto categoryUpdateDto) {
+        return categoryService.update(id, categoryUpdateDto);
     }
 
     @DeleteMapping("/{id}")

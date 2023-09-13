@@ -9,6 +9,7 @@ import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -16,29 +17,36 @@ public class CategoryServiceImpl implements CategoryService {
     @Autowired
     CategoryRepository categoryRepository;
 
+
+    private final CategoryMapper categoryMapper;
+
+    public CategoryServiceImpl(CategoryMapper categoryMapper) {
+        this.categoryMapper = categoryMapper;
+    }
+
     public List<CategoryShowDto> getAll() {
         List<Category> categories = this.categoryRepository.findAll();
-        return categories.stream().map(Category::toCategoryShowDto).collect(Collectors.toList());
+        return categories.stream().map(categoryMapper::toShowDto).collect(Collectors.toList());
     }
 
     public CategoryShowDto create(CategoryCreateDto categoryCreateDto) {
-        Category categoryToSave = Category.fromCategoryCreateDto(categoryCreateDto);
+        Category categoryToSave = categoryMapper.fromCreateDto(categoryCreateDto);
         Category savedCategory = this.categoryRepository.save(categoryToSave);
-        return savedCategory.toCategoryShowDto();
+        return categoryMapper.toShowDto(savedCategory);
     }
 
     public CategoryDetailDto getById(Long id) {
         Category category = this.categoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Category with the id " + id + " could not be found!"));
-        return category.toCategoryDetailDto();
+        return categoryMapper.toDetailDto(category);
     }
 
-    public CategoryShowDto update(Long id, CategoryUpdateDto categoryUpdateDto) {
+    public CategoryDetailDto update(Long id, CategoryUpdateDto categoryUpdateDto) {
         Category category = this.categoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Category with the id " + id + " could not be found!"));
-        category.updateFromCategoryUpdateDto(categoryUpdateDto);
+        categoryMapper.updateFromCategoryUpdateDto(categoryUpdateDto, category);
         Category updatedCategory = categoryRepository.save(category);
-        return updatedCategory.toCategoryShowDto();
+        return categoryMapper.toDetailDto(updatedCategory);
     }
 
     public void delete(Long id) {
