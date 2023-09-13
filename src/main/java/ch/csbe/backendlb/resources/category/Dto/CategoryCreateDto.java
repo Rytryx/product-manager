@@ -1,26 +1,23 @@
 package ch.csbe.backendlb.resources.category.Dto;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.validation.constraints.NotNull;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
-
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Schema(description = "DTO für das Erstellen einer Kategorie")
 public class CategoryCreateDto {
-    @NotNull
+    @Schema(description = "Einzigartige Identifikationsnummer der Kategorie")
     private Long id;
 
+    @Schema(description = "Aktivitätsstatus der Kategorie")
     private int active;
-    @NotNull
+
+    @Schema(description = "Name der Kategorie")
     private String name;
 }
-
