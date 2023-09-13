@@ -146,7 +146,7 @@ public class CategoryController {
     public ResponseEntity<Void> deleteCategoryById(
             @Parameter(description = "ID der zu löschenden Kategorie") @PathVariable Long id) {
         categoryService.delete(id);
-        if (!categoryService.existsById(id)) {
+        if (!categoryService.categoryExistsById(id)) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok().build();

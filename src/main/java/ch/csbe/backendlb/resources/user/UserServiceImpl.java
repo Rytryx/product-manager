@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
             throw new ResourceNotFoundException("Category with the id " + id + " could not be found!");
         }
     }
-    public boolean existsById(Long id) {
+    public boolean userExistsById(Long id) {
         return userRepository.existsById(id);
     }
 }

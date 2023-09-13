@@ -16,7 +16,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 public class UserController {
 
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userService;
 
     @GetMapping()
     @Operation(
@@ -143,7 +143,7 @@ public class UserController {
     public ResponseEntity<Void> userById(
             @Parameter(description = "ID des zu löschenden User") @PathVariable Long id) {
         userService.delete(id);
-        if (!userService.existsById(id)) {
+        if (!userService.userExistsById(id)) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok().build();

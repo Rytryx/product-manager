@@ -56,7 +56,7 @@ public class CategoryServiceImpl implements CategoryService {
         }
     }
 
-    public boolean existsById(Long id) {
+    public boolean categoryExistsById(Long id) {
         return categoryRepository.existsById(id);
     }
 }
