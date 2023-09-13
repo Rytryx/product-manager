@@ -29,6 +29,7 @@ public class CategoryController {
 
     @PostMapping()
     @Operation(summary = "Erstellen Sie eine neue Kategorie", operationId = "createCategory", description = "Erstellen Sie eine neue Kategorie.")
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Nachfolgend ein Request Body, der die Attribute einer Kategorie benötigt")
     @ApiResponse(responseCode = "201", description = "Kategorie erstellt",
             content = @Content(schema = @Schema(implementation = CategoryShowDto.class)))
     public CategoryShowDto createCategory(@RequestBody CategoryCreateDto categoryCreateDto) {
@@ -45,6 +46,7 @@ public class CategoryController {
     @Operation(summary = "Aktualisieren Sie eine Kategorie anhand ihrer ID", operationId = "updateCategoryById", description = "Aktualisieren Sie eine Kategorie anhand ihrer ID.")
     public CategoryDetailDto updateCategoryById(
             @Parameter(description = "ID der Kategorie") @PathVariable Long id,
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Nachfolgend ein Request Body, der die Attribute einer Kategorie benötigt um diese zu aktualisieren")
             @RequestBody CategoryUpdateDto categoryUpdateDto) {
         return categoryService.update(id, categoryUpdateDto);
     }
