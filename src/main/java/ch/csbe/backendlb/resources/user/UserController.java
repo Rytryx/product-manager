@@ -24,18 +24,29 @@ public class UserController {
     TokenService tokenService;
 
     @PostMapping("login")
-    public TokenWrapper login(@RequestBody LoginRequestDto loginRequestDto) {
-        User user = this.userService.getUserWithCredentials(loginRequestDto);
-        if (user != null) {
-            TokenWrapper tokenWrapper = new TokenWrapper();
-            String token = this.tokenService.generateToken(user);
-            tokenWrapper.setToken(token);
-            return tokenWrapper;
+    public ResponseEntity<TokenWrapper> login(@RequestBody LoginRequestDto loginRequestDto) {
+        if (isValid(loginRequestDto)) {
+            User user = this.userService.getUserWithCredentials(loginRequestDto);
+            if (user != null) {
+                TokenWrapper tokenWrapper = new TokenWrapper();
+                String token = this.tokenService.generateToken(user);
+                tokenWrapper.setToken(token);
+                return ResponseEntity.ok(tokenWrapper); // 200 OK
+            } else {
+                // Error handling for unauthorized access (401)
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); // 401 Unauthorized
+            }
         } else {
-            // Error handling.
-            // Either return 401 or 400
-            return null;
+            // Error handling for bad request (400)
+            return ResponseEntity.badRequest().build(); // 400 Bad Request
         }
+    }
+
+    private boolean isValid(LoginRequestDto loginRequestDto) {
+        // Implement the logic to validate the loginRequestDto
+        // For example, check if required fields are not null/empty
+        return loginRequestDto != null && loginRequestDto.getUsername() != null && !loginRequestDto.getUsername().isEmpty()
+                && loginRequestDto.getPassword() != null && !loginRequestDto.getPassword().isEmpty();
     }
 
     @GetMapping()
