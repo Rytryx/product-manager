@@ -52,7 +52,17 @@ public class UserServiceImpl implements UserService {
             throw new ResourceNotFoundException("Category with the id " + id + " could not be found!");
         }
     }
+
+    @Override
+    public User findUserByEmail(String email) {
+        return null;
+    }
+
     public boolean userExistsById(Long id) {
         return userRepository.existsById(id);
+    }
+
+    public <LoginRequestDto> User getUserWithCredentials(LoginRequestDto loginRequestDto) {
+        return null;
     }
 }

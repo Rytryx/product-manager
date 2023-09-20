@@ -14,7 +14,6 @@ public class SecurityConfiguration {
     @Autowired
     private JwtRequestFilter jwtRequestFilter;
 
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);

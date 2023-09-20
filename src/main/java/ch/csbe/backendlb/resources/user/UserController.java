@@ -22,7 +22,7 @@ public class UserController {
     @Autowired
     TokenService tokenService;
     @PostMapping("login")
-    public TokenWrapper login(@RequestBody LoginRequestDto loginRequestDto) {
+    public <LoginRequestDto> TokenWrapper login(@RequestBody LoginRequestDto loginRequestDto) {
         User user = this.userService.getUserWithCredentials(loginRequestDto);
         if (user != null) {
             TokenWrapper tokenWrapper = new TokenWrapper();

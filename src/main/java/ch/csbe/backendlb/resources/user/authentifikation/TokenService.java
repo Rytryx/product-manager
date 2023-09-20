@@ -4,13 +4,12 @@ import ch.csbe.backendlb.resources.user.User;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.stereotype.Service;
+
 import java.util.Date;
 
 @Service
 public class TokenService {
-    // PLEASE USE A MORE SECURE KEY :-)
     private final String SECRET_KEY = "yourSecretKey";
-
 
     public String generateToken(User user) {
         return Jwts.builder()
@@ -21,5 +20,3 @@ public class TokenService {
                 .compact();
     }
 }
-
-
