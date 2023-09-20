@@ -6,18 +6,22 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Data Transfer Object (DTO) for creating a category.
+ */
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(description = "DTO für das Erstellen einer Kategorie")
+@Schema(description = "DTO for creating a category")
 public class CategoryCreateDto {
-    @Schema(description = "Einzigartige Identifikationsnummer der Kategorie")
+
+    @Schema(description = "Unique identification number of the category")
     private Long id;
 
-    @Schema(description = "Aktivitätsstatus der Kategorie")
+    @Schema(description = "Activity status of the category")
     private int active;
 
-    @Schema(description = "Name der Kategorie")
+    @Schema(description = "Name of the category")
     private String name;
 }

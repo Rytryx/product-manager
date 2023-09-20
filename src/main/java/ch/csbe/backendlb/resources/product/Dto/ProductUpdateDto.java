@@ -8,36 +8,40 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+/**
+ * Data Transfer Object (DTO) for updating a Product.
+ */
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(description = "DTO für das Aktualisieren eines Produkts")
+@Schema(description = "DTO for updating a product")
 public class ProductUpdateDto {
+
     @NotNull
-    @Schema(description = "Einzigartige Identifikationsnummer des Produkts")
+    @Schema(description = "Unique identification number of the product")
     private Long id;
 
-    @Schema(description = "Artikelnummer (SKU) des Produkts")
+    @Schema(description = "Article number (SKU) of the product")
     private String sku;
 
     @NotNull
-    @Schema(description = "Neuer Name des Produkts")
+    @Schema(description = "New name of the product")
     private String name;
 
-    @Schema(description = "URL des neuen Produktbilds")
+    @Schema(description = "URL of the new product image")
     private String image;
 
-    @Schema(description = "Neue Beschreibung des Produkts")
+    @Schema(description = "New description of the product")
     private String description;
 
     @NotNull
-    @Schema(description = "Neuer Preis des Produkts")
+    @Schema(description = "New price of the product")
     private Double price;
 
-    @Schema(description = "Neuer Lagerbestand des Produkts")
+    @Schema(description = "New stock quantity of the product")
     private Integer stock;
 
-    @Schema(description = "Neue Kategorie des Produkts")
+    @Schema(description = "New category of the product")
     private Category category;
 }

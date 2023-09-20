@@ -12,41 +12,41 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(description = "DTO für die Anzeige eines Benutzers")
+@Schema(description = "DTO for displaying user details") // Description for Swagger documentation
 public class UserShowDto {
     @NotNull
-    @Schema(description = "Einzigartige Identifikationsnummer des Benutzers")
+    @Schema(description = "Unique identification number of the user")
     private Long id;
 
     @NotNull
-    @Schema(description = "Benutzername")
+    @Schema(description = "Username")
     private String username;
 
     @NotNull
-    @Schema(description = "Passwort")
+    @Schema(description = "Password")
     private String password;
 
-    @Schema(description = "Nachname")
+    @Schema(description = "Surname")
     private String surname;
 
-    @Schema(description = "Vorname")
+    @Schema(description = "Lastname")
     private String lastname;
 
-    @Schema(description = "E-Mail-Adresse")
+    @Schema(description = "E-Mail address")
     private String email;
 
-    @Schema(description = "Geburtstag")
+    @Schema(description = "Birthday")
     private Date birthday;
 
-    @Schema(description = "Straßenname")
+    @Schema(description = "Street name")
     private String streetName;
 
-    @Schema(description = "Hausnummer")
+    @Schema(description = "Street number")
     private String streetNr;
 
-    @Schema(description = "Postleitzahl")
+    @Schema(description = "Zip code")
     private String zipCode;
 
-    @Schema(description = "Stadt")
+    @Schema(description = "City")
     private String city;
 }

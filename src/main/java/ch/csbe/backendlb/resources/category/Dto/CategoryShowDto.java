@@ -7,21 +7,24 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+/**
+ * Data Transfer Object (DTO) for displaying the details of a category.
+ */
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(description = "DTO für die Anzeige einer Kategorie")
+@Schema(description = "DTO for displaying the details of a category")
 public class CategoryShowDto {
+
     @NotNull
-    @Schema(description = "Einzigartige Identifikationsnummer der Kategorie")
+    @Schema(description = "Unique identification number of the category")
     private Long id;
 
-    @Schema(description = "Aktivitätsstatus der Kategorie")
+    @Schema(description = "Activity status of the category")
     private int active;
 
     @NotNull
-    @Schema(description = "Name der Kategorie")
+    @Schema(description = "Name of the category")
     private String name;
 }
-

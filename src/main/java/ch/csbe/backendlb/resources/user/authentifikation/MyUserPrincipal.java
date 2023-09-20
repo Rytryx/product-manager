@@ -14,7 +14,7 @@ public class MyUserPrincipal implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // Implementieren Sie die Berechtigungslogik hier, falls benötigt.
+        // Implement the logic to retrieve user's authorities (roles) here if needed.
         return null;
     }
 
@@ -30,21 +30,21 @@ public class MyUserPrincipal implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return true; // Implementieren Sie die Logik für das Ablaufdatum des Kontos, falls benötigt.
+        return true; // Implement the logic for account expiration if needed.
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true; // Implementieren Sie die Logik für gesperrte Konten, falls benötigt.
+        return true; // Implement the logic for locked accounts if needed.
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true; // Implementieren Sie die Logik für abgelaufene Anmeldeinformationen, falls benötigt.
+        return true; // Implement the logic for expired credentials if needed.
     }
 
     @Override
     public boolean isEnabled() {
-        return true; // Implementieren Sie die Logik für deaktivierte Konten, falls benötigt.
+        return true; // Implement the logic for disabled accounts if needed.
     }
 }

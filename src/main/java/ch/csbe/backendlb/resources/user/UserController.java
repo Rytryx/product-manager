@@ -2,6 +2,7 @@ package ch.csbe.backendlb.resources.user;
 
 import ch.csbe.backendlb.resources.user.authentifikation.TokenService;
 import ch.csbe.backendlb.resources.user.authentifikation.TokenWrapper;
+import ch.csbe.backendlb.resources.user.Dto.LoginRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +22,9 @@ public class UserController {
     private UserServiceImpl userService;
     @Autowired
     TokenService tokenService;
+
     @PostMapping("login")
-    public <LoginRequestDto> TokenWrapper login(@RequestBody LoginRequestDto loginRequestDto) {
+    public TokenWrapper login(@RequestBody LoginRequestDto loginRequestDto) {
         User user = this.userService.getUserWithCredentials(loginRequestDto);
         if (user != null) {
             TokenWrapper tokenWrapper = new TokenWrapper();
@@ -30,11 +32,12 @@ public class UserController {
             tokenWrapper.setToken(token);
             return tokenWrapper;
         } else {
-            // Errorhandling.
+            // Error handling.
             // Either return 401 or 400
             return null;
         }
     }
+
     @GetMapping()
     @Operation(
             summary = "Holen Sie alle Benutzer",
@@ -70,7 +73,6 @@ public class UserController {
             responseCode = "400",
             description = "Ungültige Anforderung"
     )
-
     public ResponseEntity<User> createUser(@RequestBody User user) {
         if (isValidUser(user)) {
             User createdUser = userService.create(user);
@@ -91,7 +93,6 @@ public class UserController {
 
         return user.getPassword() != null && !user.getPassword().isEmpty();
     }
-
 
     @GetMapping("/{id}")
     @Operation(

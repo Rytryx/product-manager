@@ -9,6 +9,9 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
+/**
+ * Controller class for managing products.
+ */
 @RequestMapping("/products")
 @RestController
 public class ProductController {
@@ -16,66 +19,95 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+    /**
+     * Get a list of all products.
+     *
+     * @return List of products.
+     */
     @GetMapping()
     @Operation(
-            summary = "Holen Sie alle Produkte",
+            summary = "Get all products",
             operationId = "getProducts",
-            description = "Holen Sie eine Liste aller Produkte."
+            description = "Retrieve a list of all products."
     )
     public List<Product> getProducts() {
         return productService.getAll();
     }
 
+    /**
+     * Create a new product.
+     *
+     * @param product The product to create.
+     * @return Created product.
+     */
     @PostMapping()
     @Operation(
-            summary = "Erstellen Sie ein neues Produkt",
+            summary = "Create a new product",
             operationId = "createProduct",
-            description = "Erstellen Sie ein neues Produkt."
+            description = "Create a new product."
     )
     @ApiResponse(
             responseCode = "201",
-            description = "Produkt erstellt",
+            description = "Product created",
             content = @Content(schema = @Schema(implementation = Product.class))
     )
     public Product createProduct(@RequestBody Product product) {
         return productService.create(product);
     }
 
+    /**
+     * Get a product by its ID.
+     *
+     * @param id ID of the product to retrieve.
+     * @return Product with the specified ID.
+     */
     @GetMapping("/{id}")
     @Operation(
-            summary = "Holen Sie ein Produkt anhand seiner ID",
+            summary = "Get a product by ID",
             operationId = "getProductById",
-            description = "Holen Sie ein Produkt anhand seiner ID."
+            description = "Retrieve a product by its ID."
     )
     public Product getProductById(
-            @Parameter(description = "ID des Produkts") @PathVariable("id") Long id) {
+            @Parameter(description = "ID of the product") @PathVariable("id") Long id) {
         return productService.getById(id);
     }
 
+    /**
+     * Update a product by its ID.
+     *
+     * @param id      ID of the product to update.
+     * @param product Updated product data.
+     * @return Updated product.
+     */
     @PutMapping("/{id}")
     @Operation(
-            summary = "Aktualisieren Sie ein Produkt anhand seiner ID",
+            summary = "Update a product by ID",
             operationId = "updateProductById",
-            description = "Aktualisieren Sie ein Produkt anhand seiner ID."
+            description = "Update a product by its ID."
     )
     public Product updateProductById(
-            @Parameter(description = "ID des Produkts") @PathVariable("id") Long id,
+            @Parameter(description = "ID of the product") @PathVariable("id") Long id,
             @RequestBody Product product) {
         return productService.update(id, product);
     }
 
+    /**
+     * Delete a product by its ID.
+     *
+     * @param id ID of the product to delete.
+     */
     @DeleteMapping("/{id}")
     @Operation(
-            summary = "Löschen Sie ein Produkt anhand seiner ID",
+            summary = "Delete a product by ID",
             operationId = "deleteProductById",
-            description = "Löschen Sie ein Produkt anhand seiner ID."
+            description = "Delete a product by its ID."
     )
     @ApiResponse(
             responseCode = "204",
-            description = "Produkt gelöscht"
+            description = "Product deleted"
     )
     public void deleteProductById(
-            @Parameter(description = "ID des zu löschenden Produkts") @PathVariable("id") Long id) {
+            @Parameter(description = "ID of the product to delete") @PathVariable("id") Long id) {
         productService.deleteById(id);
     }
 }

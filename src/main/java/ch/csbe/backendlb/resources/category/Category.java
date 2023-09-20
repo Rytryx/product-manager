@@ -8,15 +8,21 @@ import org.mapstruct.MappingTarget;
 
 import java.util.List;
 
+/**
+ * Entity class representing a category.
+ */
 @Entity
 @Getter
 @Setter
 public class Category {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    @Column(columnDefinition="TINYINT")
+
+    @Column(columnDefinition = "TINYINT")
     private int active;
-    @Column(columnDefinition="varchar(255)")
+
+    @Column(columnDefinition = "varchar(255)")
     private String name;
 }
