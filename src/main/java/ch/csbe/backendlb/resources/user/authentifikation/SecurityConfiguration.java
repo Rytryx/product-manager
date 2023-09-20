@@ -19,9 +19,16 @@ public class SecurityConfiguration {
         // Add the JWT request filter before the UsernamePasswordAuthenticationFilter.
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
+        http.csrf().disable();
         http
                 .httpBasic().disable() // Disable HTTP Basic authentication.
                 .authorizeHttpRequests((authz) -> authz
+                        .requestMatchers("/users/login").permitAll()
+                        .requestMatchers("/users/register").permitAll()
+                        .requestMatchers("/swagger-ui/index.html").permitAll()
+                        .requestMatchers("/swagger-ui/*").permitAll()
+                        .requestMatchers("/v3/api-docs").permitAll()
+                        .requestMatchers("/v3/api-docs/swagger-config").permitAll()
                         .anyRequest().authenticated() // Require authentication for any request.
                 );
         return http.build(); // Build and return the security filter chain.

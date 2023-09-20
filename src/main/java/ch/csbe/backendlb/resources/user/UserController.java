@@ -23,7 +23,7 @@ public class UserController {
     @Autowired
     TokenService tokenService;
 
-    @PostMapping("login")
+    @PostMapping("/login")
     public ResponseEntity<TokenWrapper> login(@RequestBody LoginRequestDto loginRequestDto) {
         if (isValid(loginRequestDto)) {
             User user = this.userService.getUserWithCredentials(loginRequestDto);
@@ -179,14 +179,28 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/user/register")
+    @PostMapping("/register")
     @Operation(
             summary = "Registrieren Sie einen neuen Benutzer",
             operationId = "registerNewUser",
             description = "Hier kann sich ein Benutzer registrieren."
     )
-    public ResponseEntity<String> registerNewUser() {
-        return ResponseEntity.ok("Hier kann sich ein Benutzer registrieren");
+    @ApiResponse(
+            responseCode = "201",
+            description = "Benutzer registriert",
+            content = @Content(schema = @Schema(implementation = User.class))
+    )
+    @ApiResponse(
+            responseCode = "400",
+            description = "Ungültige Anforderung"
+    )
+    public ResponseEntity<User> registerNewUser(@RequestBody User user) {
+        if (isValidUser(user)) {
+            User createdUser = userService.create(user);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @PutMapping("/users/assign-admin/{userId}")
