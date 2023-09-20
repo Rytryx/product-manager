@@ -1,4 +1,4 @@
-package ch.csbe.backendlb.controllers;
+package ch.csbe.backendlb.resources.user.authentifikation;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
