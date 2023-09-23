@@ -29,6 +29,8 @@ public class SecurityConfiguration {
                         .requestMatchers("/swagger-ui/*").permitAll()
                         .requestMatchers("/v3/api-docs").permitAll()
                         .requestMatchers("/v3/api-docs/swagger-config").permitAll()
+                        .requestMatchers("/products/category/{categoryId}").permitAll()
+                        .requestMatchers("/users/assign-admin/**").hasAuthority("Admin") // User needs "Admin" authority
                         .anyRequest().authenticated() // Require authentication for any request.
                 );
         return http.build(); // Build and return the security filter chain.

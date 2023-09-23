@@ -203,14 +203,21 @@ public class UserController {
         }
     }
 
-    @PutMapping("/users/assign-admin/{userId}")
-    @Operation(
-            summary = "Weisen Sie einem Benutzer Administratorrechte zu",
-            operationId = "assignAdmin",
-            description = "Hier kann ein Administrator Administratorrechte einem Benutzer zuweisen."
-    )
-    public ResponseEntity<String> assignAdmin(
-            @Parameter(description = "ID des Benutzers") @PathVariable String userId) {
-        return ResponseEntity.ok("Hier kann ein Administrator Administratorrechte einem Benutzer zuweisen: " + userId);
+    @PutMapping("/assign-admin/{userId}")
+    public ResponseEntity<String> assignAdmin(@PathVariable Long userId) {
+        // Check if the currently logged-in user has administrator rights.
+        // This can be verified using Spring Security permissions.
+
+        User user = userService.getById(userId);
+        if (user != null) {
+            // Set the user's roleId to the Administrator role ID (assuming Administrator role ID is 1).
+            user.setRoleId(1L); // Change 1L to the actual Administrator role ID in your system.
+            userService.update(userId, user); // Update the user in the database
+
+            return ResponseEntity.ok("User with ID " + userId + " has been promoted to Administrator.");
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
+
 }

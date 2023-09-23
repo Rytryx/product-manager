@@ -109,5 +109,7 @@ public class ProductController {
     public void deleteProductById(
             @Parameter(description = "ID of the product to delete") @PathVariable("id") Long id) {
         productService.deleteById(id);
+
+
     }
 }

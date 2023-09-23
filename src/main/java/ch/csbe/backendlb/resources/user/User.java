@@ -43,4 +43,8 @@ public class User {
 
     @Column(columnDefinition = "varchar(255)")
     private String city; // User's city
+
+    @Column(name = "role_id")
+    private Long roleId; // Represents the user's role ID
+
 }
